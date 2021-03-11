@@ -12,23 +12,26 @@ import java.util.List;
 
 
 @Service
-public class DefaultTrackingService {
+public class JsonTrackingService implements TrackingService {
 
     private JsonMapper objectMapper;
-    private DefaultTrackingProvider trackingProvider;
+    private TrackingProvider trackingProvider;
 
-    public DefaultTrackingService(ObjectMapper objectMapper, DefaultTrackingProvider trackingProvider) {
+    public JsonTrackingService(ObjectMapper objectMapper, TrackingProvider trackingProvider) {
         this.objectMapper = (JsonMapper) objectMapper;
         this.trackingProvider = trackingProvider;
     }
 
     public List<CountryStatisticsDTO> getCountriesStats() {
+        logger.info("Parsing coronavirus provider data");
+
         String coronavirusData = trackingProvider.getCoronavirusData();
 
         CoronavirusDTO coronavirusDTO = null;
         try {
             coronavirusDTO = objectMapper.readValue(coronavirusData, CoronavirusDTO.class);
         } catch (JsonProcessingException e) {
+            logger.info("Parsing coronavirus provider data has been rejected by null-value");
             e.printStackTrace();
         }
 

@@ -5,9 +5,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
 @Service
-public class DefaultTrackingProvider {
-
-    private static final String DATA_PROVIDER_URL = "https://api.covid19api.com/summary";
+public class DefaultTrackingProvider implements TrackingProvider {
 
     private RestTemplate restTemplate;
 
